@@ -1,0 +1,113 @@
+//-------------------------------------- Table  init --------------------------------------
+@Name('AssocCateCreate')
+@Description('Creation of associating category table')
+create table AssocCategoryTable(
+    productCategoryID int primary key,
+    SessionID int primary key,
+    relevance double
+);
+
+
+@Name("AssocCreate")
+@Description("Creation of associating table")
+create table AssocProductTable(
+    productID  int  primary key,
+    SessionID int  primary key,
+    productCategoryId int,
+    relevance  double	);
+
+//-----------------------------------------------------------------------------------------
+
+
+//----------------------------------Checks for client possition----------------------------
+@Name('closeNtimes')
+@Description('Match when client stays at close place for 3 or more continuous ticks')
+ select *  from Location match_recognize (
+                     measures A[0] as loc1 , count(A.locationID) as idcount , B as loc2
+                     pattern (A{3,} B)
+                     define
+                      	A as A.lat between  (prev(A.lat, 1) -5) and (prev(A.lat, 1) +5)  and A.lon between (prev(A.lon, 1) -5)  and  (prev(A.lon, 1) +5) and prev(A.sessionID) = A.sessionID ,
+                      	B as B.lat < (prev(B.lat, 1) -5) or  B.lat > (prev(B.lat, 1) +5) or  B.lon < (prev(B.lon, 1) -5)  or  B.lon > (prev(B.lon, 1) +5) or B.sessionID != prev(B.sessionID));
+
+
+@Name('associate')
+@Description('Match when client stays at close place for 3 or more continuous ticks')
+select    * , "associate" as type  from ClientCloseEvent as loc,
+             method:kampia.esperLocation.Data.CMSApiConnector.getProducts() as product
+            where product.lat between loc.lat-5 and loc.lat+5 and product.lon between loc.lon-5 and loc.lon+5;
+
+//---------------------------------------------------------------------------------------
+
+
+//--------------------------------------Table manipulation-------------------------------
+//------Products
+@Name('updateRel')
+@Description('When an associate comes to an instance that is already in the table this query updates the relevance')
+on Associate as trig merge AssocProductTable as tbl where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID
+        when  matched then update
+        set relevance = kampia.esperLocation.Data.CMSApiConnector.calcRelevance(tbl.relevance, trig.newTicks , trig )where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID ;
+
+@Name('insertNewRel')
+@Description('When a client stays close to a new product this query creates a new instance in AssocProductTable')
+on Associate as trig merge AssocProductTable as tbl where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID  when not matched then insert into AssocProductTable select  trig.sessionID as SessionID ,trig.productID as productID  ,trig.productCategoryID as productCategoryId,  trig.newTicks as relevance   ;
+
+
+//--Invalidate assigned interests
+@Name('invalidateProd')
+on ClientInterested as trig merge AssocProductTable as tbl where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID
+        when  matched then update
+        set relevance = 4001 where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID;
+
+//-----Categories
+
+@Name('insertNewProdRel')
+@Description('When a client stays close to a new product this query creates a new instance in AssocProductTable')
+on ClientInterested as inter merge AssocCategoryTable as tbl where inter.sessionID=tbl.SessionID and inter.productCategoryID=tbl.productCategoryID  when not matched then insert into AssocCategoryTable select  inter.sessionID as SessionID ,inter.productCategoryID as productCategoryID  , 1 as relevance ;
+
+@Name('updateProdRel')
+@Description('When an associate comes to an instance that is already in the table this query updates the relevance')
+on ClientInterested as inter merge AssocCategoryTable as tbl where inter.sessionID=tbl.SessionID and inter.productCategoryID=tbl.productCategoryID
+        when matched then update
+        set relevance = (select relevance from AssocCategoryTable where inter.sessionID=tbl.SessionID and inter.productCategoryID=tbl.productCategoryID) + 1
+        where inter.sessionID=tbl.SessionID and inter.productCategoryID=tbl.productCategoryID ;
+
+//--Invalidate category interest
+@Name('invalidatedCat')
+@Description('This query invalidate a table entry for a associate that has passed threshold and recognized')
+on ClientInterestedCat as trig merge AssocCategoryTable as tbl where trig.sessionID=tbl.SessionID and trig.productCategoryID=tbl.productCategoryID
+        when  matched then update
+        set relevance = 4001 where trig.sessionID=tbl.SessionID and trig.productCategoryID=tbl.productCategoryID ;
+
+//-----------------------------------------------------------------------------------------
+
+//------------------------------Triggers for association ----------------------------------
+@Name('passThresholdProd')
+@Description('Triggers when relevance of an association of a client with a product is more than 20')
+on Associate select * from AssocProductTable as assoc where assoc.relevance>20 and assoc.relevance<4000;
+
+
+@Name('passThresholdCat')
+@Description('Match when a client stays close to a product of the same category 3 or more times')
+on ClientInterested select * from AssocCategoryTable as assoc where assoc.relevance=3;
+
+
+//-----------------------------------------------------------------------------------------
+
+
+//------------------------------------------ Token update ---------------------------------
+@Name('UpdateToken')
+@Description('Updates Cms Api token')
+    select "update" from pattern[every timer:interval(55 min)];
+
+
+
+//----------------------------------------
+@Name('test')
+@Description('Test query')
+select * from Location match_recognize (
+                     measures A[0] as loc1 , count(A.locationID) as idcount , B as loc2
+                     pattern (A{1,} B)
+                     define
+                       A as A.lat < (20+ prev(A.lat,1)),
+                       B as B.lat > prev(B.lat,1));
+
