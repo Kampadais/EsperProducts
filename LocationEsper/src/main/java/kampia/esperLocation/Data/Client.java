@@ -18,7 +18,8 @@ public class Client {
     private int ClientCategory;
     private int GenderID;
     private int LoyaltyID;
-    private ExplicitWishList Wishlist;
+    private WishList ExplicitWishlist;
+    private WishList ImplicitWishList;
     private int AgeGroup=0;
 
 
@@ -116,12 +117,24 @@ public class Client {
         LoyaltyID = loyaltyID;
     }
 
-    public ExplicitWishList getWishlist() {
-        return Wishlist;
+    public WishList getExplicitWishlist() {
+        return ExplicitWishlist;
     }
 
-    public void setWishlist(ExplicitWishList wishlist) {
-        Wishlist = wishlist;
+    public void setExplicitWishlist(WishList explicitWishlist) {
+        ExplicitWishlist = explicitWishlist;
+    }
+
+    public void setAgeGroup(int ageGroup) {
+        AgeGroup = ageGroup;
+    }
+
+    public void setImplicitWishList(WishList implicitWishList) {
+        ImplicitWishList = implicitWishList;
+    }
+
+    public WishList getImplicitWishList() {
+        return ImplicitWishList;
     }
 
     @Override
@@ -134,7 +147,7 @@ public class Client {
                 ", ClientCategory=" + ClientCategory +
                 ", GenderID=" + GenderID +
                 ", LoyaltyID=" + LoyaltyID +
-                ", Wishlist=" + Wishlist +
+                ", Wishlist=" + ExplicitWishlist +
                 '}';
     }
 }

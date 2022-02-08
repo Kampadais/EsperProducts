@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class ExplicitWishList {
+public class WishList {
 
     private int ClientID;
     private ArrayList<Integer> Products=new ArrayList<>();
@@ -13,7 +13,7 @@ public class ExplicitWishList {
 
 
 
-    public ExplicitWishList(int ID ){
+    public WishList(int ID ){
         this.ClientID=ID;
     }
 

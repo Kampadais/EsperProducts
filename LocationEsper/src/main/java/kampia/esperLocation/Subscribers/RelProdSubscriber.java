@@ -17,7 +17,7 @@ public class RelProdSubscriber implements StatementSubscriber{
         EsperMain.ClientsInterests.add(intre);
 
         sb.append("------------****------------      ");
-        sb.append("Client with sessionID "+tmp[1]+" is interested for product with id :"+tmp[0] + " relevance -> "+tmp[2]  );
+        sb.append("Client with sessionID "+tmp[1]+" is interested for product with id :"+tmp[0] + " relevance -> "+tmp[3]  );
         sb.append("       ------------****------------");
 
 

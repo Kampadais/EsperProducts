@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static kampia.esperLocation.EsperMain.connector;
-
 public class CMSApiConnector {
 
     private static String APIusernname = "cms_test";
@@ -37,11 +35,13 @@ public class CMSApiConnector {
             fetchClients();
             fetchCampaigns();
             fetchWishlists();
+            fetchImpWishlist();
         }else {
             fetchProductsLocal();
             fetchClientsLocal();
             fetchCampaignsLocal();
             fetchWishlistsLocal();
+            fetchImpWishlistLocal();
         }
 
     }
@@ -58,17 +58,16 @@ public class CMSApiConnector {
             while (rs.next()) {
                 int ClientID = rs.getInt("clientId");
                 if (clients.containsKey(ClientID)){
-                    ExplicitWishList tmpExplList = clients.get(ClientID).getWishlist();
+                    WishList tmpExplList = clients.get(ClientID).getExplicitWishlist();
                     if(tmpExplList.getWishListID()!=-1){
                         tmpExplList.AddProduct(rs.getInt("productId"));
                         tmpExplList.setExpireDate(rs.getInt("productId"),rs.getDate("startDate"),rs.getDate("endDate"));
 
                     }else{
-                        tmpExplList = new ExplicitWishList(rs.getInt("clientId"));
-                        int kekw= rs.getInt("productId");
+                        tmpExplList = new WishList(rs.getInt("clientId"));
                         tmpExplList.AddProduct(rs.getInt("productId"));
                         tmpExplList.setExpireDate(rs.getInt("productId"),rs.getDate("startDate"),rs.getDate("endDate"));
-                        clients.get(ClientID).setWishlist(tmpExplList);
+                        clients.get(ClientID).setExplicitWishlist(tmpExplList);
                     }
                 }
 
@@ -85,6 +84,39 @@ public class CMSApiConnector {
     }
 
 
+    private static void fetchImpWishlist(){
+    }
+
+
+    private static void fetchImpWishlistLocal() throws ClassNotFoundException, SQLException {
+        Class.forName("org.mariadb.jdbc.Driver") ;
+        Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1/ProximiotDB?generateSimpleParameterMetadata=true", "root", "") ;
+        Statement stmt = conn.createStatement() ;
+        String query = "SELECT * FROM `ImplicitWishlist`" ;
+        ResultSet rs = stmt.executeQuery(query) ;
+
+        ArrayList<Product> tmpList = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                int ClientID = rs.getInt("clientId");
+                if (clients.containsKey(ClientID)){
+                    WishList tmpImplList = clients.get(ClientID).getImplicitWishList();
+                    if(tmpImplList.getWishListID()!=-1){
+                        tmpImplList.AddProduct(rs.getInt("productId"));
+                        tmpImplList.setExpireDate(rs.getInt("productId"),rs.getDate("startDate"),rs.getDate("endDate"));
+
+                    }else{
+                        tmpImplList = new WishList(rs.getInt("clientId"));
+                        tmpImplList.AddProduct(rs.getInt("productId"));
+                        tmpImplList.setExpireDate(rs.getInt("productId"),rs.getDate("startDate"),rs.getDate("endDate"));
+                        clients.get(ClientID).setImplicitWishList(tmpImplList);
+                    }
+                }
+            }
+        }catch (Exception ex){
+            System.out.println(ex.toString());
+        }
+    }
 
     private static void fetchToken(){
 
@@ -221,7 +253,7 @@ public class CMSApiConnector {
             for(int i=0; i<array.length(); i++){
                 if (!array.getJSONObject(i).isNull("Id")) {
                     Client tmpClient = new Client(array.getJSONObject(i));
-                    tmpClient.setWishlist(new ExplicitWishList(-1));
+                    tmpClient.setExplicitWishlist(new WishList(-1));
                     clients.put(tmpClient.getClientID(),tmpClient);
                 }
             }
@@ -287,7 +319,8 @@ public class CMSApiConnector {
                if (rs.getDate("dateOfBirth")!=null)  tmp.setAgeGroup(rs.getDate("dateOfBirth"));
 
 
-                tmp.setWishlist(new ExplicitWishList(-1));
+                tmp.setExplicitWishlist(new WishList(-1));
+                tmp.setImplicitWishList(new WishList(-1));
                clients.put(tmp.getClientID(),tmp);
             }
         }catch (Exception ex){
@@ -303,14 +336,17 @@ public class CMSApiConnector {
         double multiplier=1;
 
         for (int i=0;i<campaings.size();i++) {
-            //TODO elegxos ean einai compatible me to campaing
             if (campaings.get(i).getProductCategoryID() == assoc.getProductCategoryID()) {
-                multiplier+=0.1;
-            //    System.out.println("Campaing id->" + campaings.get(i).getCampaignID()+ " matches category");
+                if (campaings.get(i).getAgeGroup()==clients.get(assoc.getClientID()).getAgeGroup() && campaings.get(i).getGenderId()==clients.get(assoc.getClientID()).getGenderID()){
+                    multiplier+=0.1;
+                    // System.out.println("Campaing id->" + campaings.get(i).getCampaignID()+ " matches category");
+                }
             }
             if (campaings.get(i).getProductID()==assoc.getProductID()){
-                multiplier+=0.4;
-            //    System.out.println("Campaing id->" + campaings.get(i).getCampaignID()+ " matches productID");
+                if (campaings.get(i).getAgeGroup()==clients.get(assoc.getClientID()).getAgeGroup() && campaings.get(i).getGenderId()==clients.get(assoc.getClientID()).getGenderID()){
+                    multiplier+=0.4;
+                    //System.out.println("Campaing id->" + campaings.get(i).getCampaignID()+ " matches productID");
+                }
             }
         }
 
@@ -318,12 +354,16 @@ public class CMSApiConnector {
 
         Client tmpClient = clients.get(assoc.getClientID());
 
-        whishAcc+= tmpClient.getWishlist().checkCategoryID(assoc.getProductCategoryID());
+        whishAcc+= tmpClient.getExplicitWishlist().checkCategoryID(assoc.getProductCategoryID());
 
-        if (tmpClient.getWishlist().checkProduct(assoc.getProductID())) {
+        if (tmpClient.getExplicitWishlist().checkProduct(assoc.getProductID())){
             whishAcc += 5 ;
        //     System.out.println("Product-> " + assoc.getProductID() + " in whishlist.");
         }
+        if (tmpClient.getImplicitWishList().checkProduct(assoc.getProductID())){
+            whishAcc+= 2 ;
+        }
+
         double retRel= oldRel+ multiplier*(whishAcc+newRel);
 
       //  System.out.println("Old->" + oldRel + " added->" +multiplier*(whishAcc+newRel) );
