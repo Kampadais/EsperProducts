@@ -173,18 +173,6 @@ public class EsperMain {
             }
         });
 
-        statement = runtime.getDeploymentService().getStatement(deployment.getDeploymentId(), "test");
-
-        statement.addListener((newData, oldData, sta, run) -> {
-            for (EventBean nd : newData) {
-                TestSubscriber sub = new TestSubscriber();
-                try {
-                    sub.output(nd);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
 
     }

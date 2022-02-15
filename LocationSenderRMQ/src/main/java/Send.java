@@ -33,8 +33,9 @@ public class Send {
         factory.setHost("localhost");
 
         clientIds.put(8,5);
-        clientIds.put(9,13);
-        clientIds.put(10,24);
+        clientIds.put(9,7);
+        clientIds.put(10,8);
+        clientIds.put(11,9);
 
         try (Connection connection = factory.newConnection();
              Channel channel = connection.createChannel()) {

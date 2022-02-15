@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 04, 2022 at 11:54 AM
+-- Generation Time: Feb 15, 2022 at 05:49 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.14
 
@@ -85,18 +85,17 @@ CREATE TABLE `ad_offers` (
 --
 
 INSERT INTO `ad_offers` (`id`, `code`, `description`, `clientId`, `productCategoryId`, `brandId`, `clientLoyaltyStatusId`, `productId`, `ageGroupId`, `genderId`, `minDiscount`, `maxDiscount`, `isActive`, `startDate`, `endDate`, `createdDate`, `deletedDate`) VALUES
-(1, 'MS-10', 'test', NULL, 1, 4, NULL, NULL, NULL, 2, 5, 10, 1, '2022-06-17 10:00:00', '2022-09-18 10:00:00', '2021-01-07 10:00:00', NULL),
-(2, 'CC3', 'up your game', NULL, NULL, NULL, 1, NULL, NULL, NULL, 5, 25, 1, '2022-06-17 10:00:00', '2022-07-10 08:30:00', '2021-05-17 10:00:00', NULL),
-(3, 'DLL-5', 'everyone should use this', NULL, 15, NULL, NULL, NULL, 4, 1, 10.3, 20, 0, '2022-05-01 08:30:00', '2022-08-10 08:30:00', '2021-03-14 10:00:00', NULL),
-(4, 'SAVE15', 'ee', NULL, 17, NULL, 3, 51, 2, 2, 2, 13, 1, '2021-08-11 07:30:00', '2021-09-02 12:00:00', '2021-06-09 10:00:00', NULL),
-(5, 'Summer11', 'get ready for summer', 23, NULL, NULL, NULL, 36, NULL, NULL, 12.7, 15, 1, '2021-08-12 08:30:00', '2021-10-13 10:00:00', '2021-02-27 10:00:00', NULL),
-(6, 'ttt', NULL, 23, NULL, NULL, NULL, 36, NULL, NULL, 20, 30, 1, '2021-08-11 17:00:00', '2021-08-14 15:00:00', '2021-06-13 10:00:00', NULL),
-(7, 'qqqq', NULL, 23, NULL, NULL, NULL, 56, 4, 1, 6, 15, 1, '2021-08-13 09:00:00', '2021-08-15 12:00:00', '2021-04-21 10:00:00', NULL),
-(15, 'MS-101', NULL, NULL, 18, 10, NULL, NULL, NULL, NULL, 3.5, 15, 1, '2021-04-11 11:16:00', '2021-10-07 15:30:00', '2021-07-30 10:00:00', NULL),
+(1, 'CP-3-3-10', 'Cellphones discount', NULL, 21, NULL, NULL, NULL, 3, 2, 5, 10, 1, '2022-06-17 10:00:00', '2022-09-18 10:00:00', '2021-01-07 10:00:00', NULL),
+(2, 'LP-3-1-25', 'up your game with a nnew laptop', NULL, 22, NULL, 1, NULL, 3, 1, 5, 25, 1, '2022-06-17 10:00:00', '2022-07-10 08:30:00', '2021-05-17 10:00:00', NULL),
+(3, 'DLL-5', 'everyone should use this', NULL, 16, NULL, NULL, NULL, 3, 1, 10.3, 20, 0, '2022-05-01 08:30:00', '2022-08-10 08:30:00', '2021-03-14 10:00:00', NULL),
+(4, 'SAVE15', 'ee', NULL, 16, NULL, 3, NULL, 3, 2, 2, 13, 1, '2021-08-11 07:30:00', '2021-09-02 12:00:00', '2021-06-09 10:00:00', NULL),
+(5, 'Summer11', 'get ready for summer', NULL, NULL, NULL, NULL, 51, 3, 1, 12.7, 15, 1, '2021-08-12 08:30:00', '2021-10-13 10:00:00', '2021-02-27 10:00:00', NULL),
+(6, 'ttt', NULL, NULL, NULL, NULL, NULL, 56, 3, 2, 20, 30, 1, '2021-08-11 17:00:00', '2021-08-14 15:00:00', '2021-06-13 10:00:00', NULL),
+(7, 'qqqq', NULL, NULL, NULL, NULL, NULL, 56, 3, 1, 6, 15, 1, '2021-08-13 09:00:00', '2021-08-15 12:00:00', '2021-04-21 10:00:00', NULL),
+(15, 'MS-101', NULL, NULL, NULL, 5, NULL, NULL, 3, NULL, 3.5, 15, 1, '2021-04-11 11:16:00', '2021-10-07 15:30:00', '2021-07-30 10:00:00', NULL),
 (18, 'TR-500', 'save a fortune with this code', 23, NULL, NULL, NULL, 33, NULL, NULL, 10.5, 10.5, 0, '2021-08-13 00:00:00', '2021-08-14 00:00:00', '2021-08-05 10:00:00', NULL),
 (24, 'RFF16', 'do you want to save money? use this code!', NULL, NULL, 4, 1, NULL, NULL, 1, 2, 4, 1, '2021-03-05 09:00:00', '2021-05-25 23:00:00', '2021-09-09 12:00:00', NULL),
-(25, 'FOO20', 'hello world', NULL, 19, 7, 3, NULL, 4, NULL, 20, 25, 1, '2020-02-28 01:00:00', '2020-12-25 10:00:00', '2020-02-27 09:00:00', NULL),
-(26, 'BAR19', 'foobar', NULL, NULL, NULL, 2, 51, 3, 1, 13, 19, 0, '2021-04-01 11:00:00', '2021-06-06 10:00:00', '2021-03-15 00:00:00', NULL);
+(25, 'FOO20', 'hello world', NULL, 19, 7, 3, NULL, 4, NULL, 20, 25, 1, '2020-02-28 01:00:00', '2020-12-25 10:00:00', '2020-02-27 09:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -129,8 +128,7 @@ INSERT INTO `ad_offers_history` (`id`, `adOfferId`, `clientId`, `finalDiscount`,
 (11, 15, 7, 13, '2021-07-05 18:00:00', NULL),
 (12, 24, 16, 2, '2021-04-10 06:00:00', NULL),
 (13, 24, 19, 3.5, '2021-03-07 14:00:00', NULL),
-(14, 25, 5, 25, '2020-05-13 10:00:00', NULL),
-(15, 26, 21, 17, '2021-04-27 15:00:00', NULL);
+(14, 25, 5, 25, '2020-05-13 10:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -317,12 +315,12 @@ CREATE TABLE `brands` (
 --
 
 INSERT INTO `brands` (`id`, `name`, `createdDate`, `updatedDate`, `deletedDate`) VALUES
-(4, 'TELTONIKA', '2020-02-20 11:33:23', NULL, NULL),
-(5, 'AVIOSYS', '2020-04-06 12:33:23', NULL, NULL),
-(6, 'ELDES', '2020-05-13 08:47:06', NULL, NULL),
-(7, 'PAPOUCH', '2021-05-13 12:33:23', NULL, NULL),
+(4, 'LG', '2020-02-20 11:33:23', NULL, NULL),
+(5, 'SAMSUNG', '2020-04-06 12:33:23', NULL, NULL),
+(6, 'APPLE', '2020-05-13 08:47:06', NULL, NULL),
+(7, 'BOSH', '2021-05-13 12:33:23', NULL, NULL),
 (8, 'ΑΝΤΩΝΙΑΔΗΣ Χ & Κ Ο.Ε', '2021-06-01 12:33:23', NULL, NULL),
-(9, 'TP-LINK', '2021-06-17 17:07:35', NULL, NULL),
+(9, 'LENOVO', '2021-06-17 17:07:35', NULL, NULL),
 (10, 'COMPUCON', '2021-07-30 12:33:23', NULL, NULL),
 (11, 'NOKERO', '2021-08-01 12:33:23', NULL, NULL),
 (12, 'Chinavasion', '2021-08-05 12:33:23', NULL, NULL),
@@ -354,10 +352,10 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `firstName`, `lastName`, `clientLoyaltyStatusId`, `genderId`, `dateOfBirth`, `notificationsLimit`, `isFamily`, `createdDate`, `updatedDate`, `deletedDate`) VALUES
-(5, 'Μενιος', 'Σταβέλας', 3, 1, '1958-11-17', 10, 0, '2021-03-11 15:00:23', NULL, NULL),
-(7, 'Ευαγγελια', 'Ζιωγα', 1, 2, NULL, 2, 1, '2021-03-11 15:00:23', NULL, NULL),
-(8, 'Κωνσταντίνα', 'Γεωργιου', 3, 2, '2000-05-16', NULL, 0, '2021-03-11 15:00:23', NULL, NULL),
-(9, 'Ιασονας', 'Τυφλοπουλος', 1, 1, NULL, NULL, 0, '2021-03-11 15:00:23', NULL, NULL),
+(5, 'Μενιος', 'Σταβέλας', 3, 1, '1975-01-22', 10, 0, '2021-03-11 15:00:23', NULL, NULL),
+(7, 'Ευαγγελια', 'Ζιωγα', 1, 2, '1975-01-22', 2, 1, '2021-03-11 15:00:23', NULL, NULL),
+(8, 'Κωνσταντίνα', 'Γεωργιου', 3, 2, '1975-01-22', NULL, 0, '2021-03-11 15:00:23', NULL, NULL),
+(9, 'Ιασονας', 'Τυφλοπουλος', 1, 1, '1975-01-22', NULL, 0, '2021-03-11 15:00:23', NULL, NULL),
 (10, 'Δημητρης', 'Μοσχος', 1, 1, NULL, NULL, 0, '2021-03-11 15:00:23', NULL, NULL),
 (11, 'Μεροπη', 'Παπανικολαου', 2, 2, NULL, 3, 1, '2021-03-11 15:00:23', NULL, NULL),
 (12, 'Μαριος', 'Καλογερακης', 1, 1, NULL, 5, 0, '2021-03-11 15:00:23', NULL, NULL),
@@ -451,14 +449,14 @@ CREATE TABLE `explicit_wishlist_items` (
 --
 
 INSERT INTO `explicit_wishlist_items` (`id`, `clientId`, `productId`, `startDate`, `endDate`, `deletedDate`) VALUES
-(1, 36, 36, '2021-03-24 10:43:44', NULL, NULL),
-(7, 36, 36, '2021-03-24 10:43:44', NULL, NULL),
-(11, 37, 51, '2021-03-24 10:43:44', NULL, NULL),
-(12, 7, 53, '2021-03-24 10:43:44', NULL, NULL),
-(13, 9, 53, '2021-03-24 10:43:44', NULL, NULL),
-(14, 9, 55, '2021-03-24 10:43:44', NULL, NULL),
-(15, 9, 61, '2021-03-24 10:43:44', NULL, NULL),
-(19, 19, 36, '2021-03-24 10:43:44', NULL, NULL),
+(1, 5, 52, '2021-03-24 10:43:44', NULL, NULL),
+(7, 5, 53, '2021-03-24 10:43:44', NULL, NULL),
+(11, 7, 36, '2021-03-24 10:43:44', NULL, NULL),
+(12, 7, 47, '2021-03-24 10:43:44', NULL, NULL),
+(13, 8, 56, '2021-03-24 10:43:44', NULL, NULL),
+(14, 8, 55, '2021-03-24 10:43:44', NULL, NULL),
+(15, 9, 33, '2021-03-24 10:43:44', NULL, NULL),
+(19, 9, 33, '2021-03-24 10:43:44', NULL, NULL),
 (24, 8, 36, '2020-03-15 00:00:00', NULL, NULL),
 (25, 7, 48, '2021-05-23 09:00:00', NULL, NULL),
 (26, 5, 56, '2021-11-16 01:27:40', '2022-01-04 01:27:40', NULL);
@@ -532,21 +530,21 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `sku`, `description`, `productCategoryId`, `brandId`, `model`, `retailPrice`, `notes`, `isActive`, `productUrl`, `createdDate`, `updatedDate`, `deletedDate`) VALUES
-(32, 'TSH-MED-RED-COT', 'string', 1, 10, NULL, 8, NULL, 1, NULL, '2021-03-02 11:18:02', '2021-06-16 11:55:21', NULL),
-(33, 'TSH-MED-WHI-COT', 'tshirt, medium size, white colour cotton', 1, 10, NULL, 10, NULL, 1, NULL, '2021-03-02 11:38:55', '2021-03-12 13:22:47', NULL),
-(34, 'TSH-MED-BLU-COT', '', 1, 7, NULL, 86, NULL, 1, NULL, '2021-03-02 11:38:43', '2021-03-12 12:52:31', NULL),
-(35, 'T-Gec-RS', 'tea, gecko variety, red, small', 23, 9, NULL, 48, NULL, 1, NULL, '2021-03-02 12:08:56', '2021-03-12 12:53:05', NULL),
-(36, 'T-Gec-WS', '', 23, 7, NULL, 121, NULL, 1, NULL, '2021-03-02 12:33:42', NULL, NULL),
-(45, 'T-Gec-RL', 'leee', 1, 13, NULL, 94, NULL, 1, NULL, '2021-03-02 15:18:12', NULL, NULL),
-(46, 'T-Gec-WL', '', 23, 4, NULL, 32, NULL, 1, NULL, '2021-03-02 15:18:53', NULL, NULL),
-(47, 'T-Gec-RM', '', 1, 5, NULL, 55, NULL, 1, NULL, '2021-03-02 15:27:40', NULL, NULL),
-(48, 'T-Gec-WM', '', 23, 7, NULL, 56, NULL, 0, NULL, '2021-03-02 15:30:52', NULL, NULL),
-(51, 'Sh/GrMWo', 'shirt, green, medium, women\'s', 17, 5, 'string', 23, 'string', 0, 'string', '2021-03-04 14:12:48', NULL, NULL),
-(52, 'Sh/BlMWo', 'string', 1, 6, 'string', 0.6, 'string', 1, 'string', '2021-03-04 14:18:00', NULL, NULL),
-(53, 'Sh/RdMWo', 'string', 1, 9, 'string', 139, 'string', 1, 'string', '2021-03-04 14:19:45', NULL, NULL),
-(54, 'Sh/GrMMe', 'string', 19, 9, 'string', 562, 'string', 1, 'string', '2021-03-04 14:23:48', NULL, NULL),
-(55, 'Sh/GrLWo', 'string', 19, 9, 'string', 156, 'string', 1, 'string', '2021-03-04 14:24:15', NULL, NULL),
-(56, 'Sh/GrLMe', 'string', 15, 8, 'string', 78, 'string', 1, 'string', '2021-03-04 14:25:47', NULL, NULL),
+(32, 'WMB-1', 'Το πλυντήριο ρούχων WAL28RH2GR από τον κατασκευαστή Bosch, έχει χωρητικότητα κάδου κατάλληλη για έως και 10 κιλά άπλυτων ρούχων, και μπορεί να καλύψει τις ανάγκες μιας πολύτεκνης οικογένειας. Παράλληλα χάρη στον μεγάλο κάδο, εκτός από πολλά ρούχα για πλύσιμο μπορεί να χωράει και παπλώματα ή κουβέρτες. Η φόρτωση των ρούχων γίνεται από τη στρογγυλή πόρτα...', 16, 10, 'WAL28RH2GR ', 624.9, NULL, 1, 'https://www.skroutz.gr/s/27786954/Bosch-WAL28RH2GR-%CE%A0%CE%BB%CF%85%CE%BD%CF%84%CE%AE%CF%81%CE%B9%CE%BF-%CE%A1%CE%BF%CF%8D%CF%87%CF%89%CE%BD-10kg-1400-%CE%A3%CF%84%CF%81%CE%BF%CF%86%CF%8E%CE%BD.html?from=featured', '2021-03-02 11:18:02', '2021-06-16 11:55:21', NULL),
+(33, 'WMB-2', 'Πλυντήριο ρούχων χωρητικότητας 8 kg με EcoSilence Drive για αθόρυβη λειτουργία και εξαιρετική ανθεκτικότητα. Χάρη στη λειτουργία SpeedPerfect τα ρούχα είναι τέλεια πλυμένα σε έως 65% λιγότερο χρόνο.\r\n\r\nΟι χρήστες που το έχουν αγοράσει το ξεχωρίζουν κυρίως γιατί πλένει καλά τα ρούχα και είναι ικανοποιητική η χωρητικότητά του.', 16, 10, 'WAN24008GR', 361.99, NULL, 1, 'https://www.skroutz.gr/s/22813100/Bosch-WAN24008GR-%CE%A0%CE%BB%CF%85%CE%BD%CF%84%CE%AE%CF%81%CE%B9%CE%BF-%CE%A1%CE%BF%CF%8D%CF%87%CF%89%CE%BD-8kg-1200-%CE%A3%CF%84%CF%81%CE%BF%CF%86%CF%8E%CE%BD.html', '2021-03-02 11:38:55', '2021-03-12 13:22:47', NULL),
+(34, 'WMS-1', 'To πλυντήριο ρούχων της Samsung με χωρητικότητα 9 κιλά και τεχνολογία Eco Bubble, που δημιουργεί φυσαλίδες αφρού και καθαρίζει βαθύτερα τα ρούχα.  Οι χρήστες που το έχουν αγοράσει το ξεχωρίζουν κυρίως γιατί είναι ικανοποιητική η χωρητικότητά του.', 16, 5, 'WW90TA046AE', 422.99, NULL, 1, 'https://www.skroutz.gr/s/25726854/Samsung-WW90TA046AE-%CE%A0%CE%BB%CF%85%CE%BD%CF%84%CE%AE%CF%81%CE%B9%CE%BF-%CE%A1%CE%BF%CF%8D%CF%87%CF%89%CE%BD-9kg-1400-%CE%A3%CF%84%CF%81%CE%BF%CF%86%CF%8E%CE%BD.html', '2021-03-02 11:38:43', '2021-03-12 12:52:31', NULL),
+(35, 'WMS-2', 'To πλυντήριο ρούχων της Samsung με χωρητικότητα 10,5 κιλά και τεχνολογία AI Control δίνει τη δυνατότητα προσαρμογής των προγραμμάτων πλύσης ανάλογα με τις προτιμήσεις σου και τις καιρικές συνθήκες.\r\n\r\nΟι χρήστες που το έχουν αγοράσει το ξεχωρίζουν κυρίως γιατί είναι ικανοποιητική η χωρητικότητά του.', 16, 5, 'WW10T654DLH', 540, NULL, 1, 'https://www.skroutz.gr/s/25662166/Samsung-WW10T654DLH-%CE%A0%CE%BB%CF%85%CE%BD%CF%84%CE%AE%CF%81%CE%B9%CE%BF-%CE%A1%CE%BF%CF%8D%CF%87%CF%89%CE%BD-10-5kg-1400-%CE%A3%CF%84%CF%81%CE%BF%CF%86%CF%8E%CE%BD.html', '2021-03-02 12:08:56', '2021-03-12 12:53:05', NULL),
+(36, 'MPA-13P', 'Ταχύτητα 5G. Επεξεργαστής A15 Bionic. Εξελιγμένο νέο λογισμικό για επεξεργασία φωτογραφίας. Αυτόματα ρυθμιζόμενος ρυθμός ανανέωσης 120Hz.', 21, 6, 'iPhone 13 Pro Max 5G', 1328.2, NULL, 1, 'https://www.skroutz.gr/s/31105160/Apple-iPhone-13-Pro-Max-5G-6GB-128GB-Sierra-Blue.html', '2021-03-02 12:33:42', NULL, NULL),
+(45, 'MPA-13', NULL, 21, 6, 'iPhone 13 5G', 845.84, NULL, 1, 'https://www.skroutz.gr/s/31006584/Apple-iPhone-13-5G-4GB-128GB-Midnight.html#description', '2021-03-02 15:18:12', NULL, NULL),
+(46, 'MPS-A52', 'Multi Role Quad Camera 64MP με OIS, μπαταρία 4.500 mAh, αντοχή IP67 και Fast Charging 25W', 21, 5, 'Galaxy A52s 5G', 312.92, NULL, 1, 'https://www.skroutz.gr/s/30662995/Samsung-Galaxy-A52s-5G-6GB-128GB-Awesome-Black.html', '2021-03-02 15:18:53', NULL, NULL),
+(47, 'MPS-Z3', '', 21, 5, 'Galaxy Z Fold 3 5G', 1318.77, NULL, 1, 'https://www.skroutz.gr/s/30445633/Samsung-Galaxy-Z-Fold-3-5G-12GB-256GB-Phantom-Black.html', '2021-03-02 15:27:40', NULL, NULL),
+(48, 'MPL-G8', 'Με επεξεργαστή Snapdragon 855, κάμερα με ευρύτερο οπτικό πεδίο 137 μοιρών και ασφαλείς επιλογές βιομετρικής αναγνώρισης.', 21, 4, 'G8S ThinQ', 580, NULL, 0, 'https://www.skroutz.gr/s/19283100/LG-G8S-ThinQ-6GB-128GB-Aurora-Black.html', '2021-03-02 15:30:52', NULL, NULL),
+(51, 'LA-P14', NULL, 22, 6, 'Apple MacBook Pro 14\" (2021)', 2959.85, 'string', 0, 'https://www.skroutz.gr/s/31899606/Apple-MacBook-Pro-14-2021-M1-Pro-10-core-16GB-1TB-Retina-Display-Space-Gray-US.html', '2021-03-04 14:12:48', NULL, NULL),
+(52, 'LA-A13', 'Με τον επεξεργαστή M1 8 πυρήνων που αποδίδει 2,8 φορές μεγαλύτερη επεξεργαστική ισχύ και μέχρι 5 φορές καλύτερα γραφικά από την προηγούμενη γενιά. Διαθέτει λειτουργικό macOS Big Sur ειδικά σχεδιασμένο για τον M1, οθόνη Retina, και γρήγορο και αθόρυβο πληκτρολόγιο.', 22, 6, 'MacBook Air 13.3\" ', 1083, 'string', 1, 'https://www.skroutz.gr/s/25634434/Apple-MacBook-Air-13-3-M1-8GB-256GB-Retina-Display-2020-Space-Gray-GR.html', '2021-03-04 14:18:00', NULL, NULL),
+(53, 'LL-TE142', NULL, 22, 9, 'ThinkPad E14 Gen 2 (Intel)', 1466.19, 'string', 1, 'https://www.skroutz.gr/s/26333495/Lenovo-ThinkPad-E14-Gen-2-Intel-i7-1165G7-16GB-1TB-FHD-W10-GR-Keyboard-Black.html', '2021-03-04 14:19:45', NULL, NULL),
+(54, 'LL-TE143', NULL, 22, 9, 'ThinkPad E14 Gen 3 (AMD)', 1424.5, 'string', 1, 'https://www.skroutz.gr/s/32473200/Lenovo-ThinkPad-E14-Gen-3-AMD-Ryzen-7-5700U-16GB-1TB-FHD-W10-Pro-GR-Keyboard.html', '2021-03-04 14:23:48', NULL, NULL),
+(55, 'LL-L5A', NULL, 22, 9, 'Legion 5 17ACH6', 1199.01, 'string', 1, 'https://www.skroutz.gr/s/32259774/Lenovo-Legion-5-17ACH6-Ryzen-7-5800H-16GB-512GB-GeForce-RTX-3050-FHD-W11-Home-Phantom-Blue-Shadow-Black.html?from=catspan', '2021-03-04 14:24:15', NULL, NULL),
+(56, 'LL-L5B', NULL, 22, 9, ' Legion 5 15ARH05 ', 805.56, 'string', 1, 'https://www.skroutz.gr/s/27633526/Lenovo-Legion-5-15ARH05-Ryzen-5-4600H-8GB-512GB-GeForce-GTX-1650-Ti-FHD-No-OS-US-Keyboard-Phantom-Black.html?from=catspan', '2021-03-04 14:25:47', NULL, NULL),
 (57, 'Sh/GrSWo', 'string', 1, 7, 'string', 738, 'string', 1, 'string', '2021-03-04 14:25:54', NULL, NULL),
 (58, 'Sh/GrSMe', 'string', 17, 6, 'string', 224, 'string', 1, 'string', '2021-03-04 14:26:58', NULL, NULL),
 (59, 'Sh/BlMMe', 'string', 1, 5, 'string', 75, 'string', 1, 'string', '2021-03-04 14:41:09', NULL, NULL),

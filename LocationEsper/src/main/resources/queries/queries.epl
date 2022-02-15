@@ -49,7 +49,7 @@ on Associate as trig merge AssocProductTable as tbl where trig.sessionID=tbl.Ses
 
 @Name('insertNewRel')
 @Description('When a client stays close to a new product this query creates a new instance in AssocProductTable')
-on Associate as trig merge AssocProductTable as tbl where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID  when not matched then insert into AssocProductTable select  trig.sessionID as SessionID ,trig.productID as productID  ,trig.productCategoryID as productCategoryId,  trig.newTicks as relevance   ;
+on Associate as trig merge AssocProductTable as tbl where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID  when not matched then insert into AssocProductTable select  trig.sessionID as SessionID ,trig.productID as productID  ,trig.productCategoryID as productCategoryId, kampia.esperLocation.Data.CMSApiConnector.calcRelevance(new Double(0), trig.newTicks , trig ) as relevance   ;
 
 
 //--Invalidate assigned interests
@@ -62,7 +62,7 @@ on ClientInterested as trig merge AssocProductTable as tbl where trig.sessionID=
 
 @Name('insertNewProdRel')
 @Description('When a client stays close to a new product this query creates a new instance in AssocProductTable')
-on ClientInterested as inter merge AssocCategoryTable as tbl where inter.sessionID=tbl.SessionID and inter.productCategoryID=tbl.productCategoryID  when not matched then insert into AssocCategoryTable select  inter.sessionID as SessionID ,inter.productCategoryID as productCategoryID  , 1 as relevance ;
+on ClientInterested as inter merge AssocCategoryTable as tbl where inter.sessionID=tbl.SessionID and inter.productCategoryID=tbl.productCategoryID  when not matched then insert into AssocCategoryTable select  inter.sessionID as SessionID ,inter.productCategoryID as productCategoryID  , 0 as relevance ;
 
 @Name('updateProdRel')
 @Description('When an associate comes to an instance that is already in the table this query updates the relevance')
@@ -102,12 +102,3 @@ on ClientInterested select * from AssocCategoryTable as assoc where assoc.releva
 
 
 //----------------------------------------
-@Name('test')
-@Description('Test query')
-select * from Location match_recognize (
-                     measures A[0] as loc1 , count(A.locationID) as idcount , B as loc2
-                     pattern (A{1,} B)
-                     define
-                       A as A.lat < (20+ prev(A.lat,1)),
-                       B as B.lat > prev(B.lat,1));
-

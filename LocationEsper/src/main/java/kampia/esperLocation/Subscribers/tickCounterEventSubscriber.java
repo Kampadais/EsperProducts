@@ -24,7 +24,7 @@ public class tickCounterEventSubscriber  implements   StatementSubscriber{
         Associate tmp = new Associate(prod.getProductID(),prod.getProductCategoryID(),tmploc.getSessionID(),tmploc.getTicks(),tmploc.getSessionID(),tmploc.getClientID());
 
         sb.append("------------****------------      ");
-        sb.append("Client with sessionID:"+ tmploc.getSessionID()+" and id"+tmploc.getClientID()+" stays close to  product: "+ prod.getProductID());//tmploc.getTicks());
+        sb.append("Client with sessionID:"+ tmploc.getSessionID()+" and id "+tmploc.getClientID()+" stays close to  product: "+ prod.getProductID());//tmploc.getTicks());
         sb.append("        ------------****------------");
 
       //  SendToDB(tmploc,prod,sb.toString());

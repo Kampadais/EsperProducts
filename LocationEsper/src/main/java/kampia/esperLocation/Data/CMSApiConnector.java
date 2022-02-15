@@ -337,13 +337,13 @@ public class CMSApiConnector {
 
         for (int i=0;i<campaings.size();i++) {
             if (campaings.get(i).getProductCategoryID() == assoc.getProductCategoryID()) {
-                if (campaings.get(i).getAgeGroup()==clients.get(assoc.getClientID()).getAgeGroup() && campaings.get(i).getGenderId()==clients.get(assoc.getClientID()).getGenderID()){
+                if ((campaings.get(i).getAgeGroup()==clients.get(assoc.getClientID()).getAgeGroup() || campaings.get(i).getAgeGroup()==0 ) && (campaings.get(i).getGenderId()==clients.get(assoc.getClientID()).getGenderID() || campaings.get(i).getGenderId()==0)){
                     multiplier+=0.1;
                     // System.out.println("Campaing id->" + campaings.get(i).getCampaignID()+ " matches category");
                 }
             }
             if (campaings.get(i).getProductID()==assoc.getProductID()){
-                if (campaings.get(i).getAgeGroup()==clients.get(assoc.getClientID()).getAgeGroup() && campaings.get(i).getGenderId()==clients.get(assoc.getClientID()).getGenderID()){
+                if ((campaings.get(i).getAgeGroup()==clients.get(assoc.getClientID()).getAgeGroup() || campaings.get(i).getAgeGroup()==0) && (campaings.get(i).getGenderId()==clients.get(assoc.getClientID()).getGenderID() || campaings.get(i).getGenderId()==0  )){
                     multiplier+=0.4;
                     //System.out.println("Campaing id->" + campaings.get(i).getCampaignID()+ " matches productID");
                 }
