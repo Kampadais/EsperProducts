@@ -53,4 +53,20 @@ public class NotifObject {
         return retVal;
     }
 
+    public Object deserialize( byte[] data) {
+        ObjectMapper mapper = new ObjectMapper();
+        NotifObject notif = null;
+        try {
+            notif = mapper.readValue(data, NotifObject.class);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return  notif;
+
+
+    }
+
+
 }
