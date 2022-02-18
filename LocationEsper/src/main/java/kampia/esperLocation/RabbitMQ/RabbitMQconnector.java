@@ -2,14 +2,16 @@ package kampia.esperLocation.RabbitMQ;
 
 
 import com.espertech.esper.runtime.client.EPRuntime;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.DeliverCallback;
+import com.rabbitmq.client.*;
 import kampia.esperLocation.Data.CMSApiConnector;
+import kampia.esperLocation.EventTypes.NotifObject;
 import kampia.esperLocation.config.CustomDeserializer;
+import kampia.esperLocation.config.CustomSerializer;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeoutException;
 
 public class RabbitMQconnector {
 
@@ -49,5 +51,27 @@ public class RabbitMQconnector {
 
     public EPRuntime getRuntime() {
         return runtime;
+    }
+
+    public static void SendForNotif(NotifObject RMQtoSend ){
+
+        String QueueName= "Notification_queue";
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("localhost");
+        try (Connection connection = factory.newConnection();
+             Channel channel = connection.createChannel()) {
+            channel.queueDeclare(QueueName, false, false, false, null);
+
+            AMQP.BasicProperties messageProperties = new AMQP.BasicProperties.Builder()
+                    .contentType("Location")
+                    .build();
+            channel.basicPublish("", QueueName, messageProperties, RMQtoSend.serialize(RMQtoSend));
+
+
+        } catch (IOException | TimeoutException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

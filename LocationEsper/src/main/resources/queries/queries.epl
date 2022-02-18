@@ -4,6 +4,7 @@
 create table AssocCategoryTable(
     productCategoryID int primary key,
     SessionID int primary key,
+    ClientId int,
     relevance double
 );
 
@@ -13,6 +14,7 @@ create table AssocCategoryTable(
 create table AssocProductTable(
     productID  int  primary key,
     SessionID int  primary key,
+    ClientId int ,
     productCategoryId int,
     relevance  double	);
 
@@ -49,7 +51,7 @@ on Associate as trig merge AssocProductTable as tbl where trig.sessionID=tbl.Ses
 
 @Name('insertNewRel')
 @Description('When a client stays close to a new product this query creates a new instance in AssocProductTable')
-on Associate as trig merge AssocProductTable as tbl where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID  when not matched then insert into AssocProductTable select  trig.sessionID as SessionID ,trig.productID as productID  ,trig.productCategoryID as productCategoryId, kampia.esperLocation.Data.CMSApiConnector.calcRelevance(new Double(0), trig.newTicks , trig ) as relevance   ;
+on Associate as trig merge AssocProductTable as tbl where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID  when not matched then insert into AssocProductTable select  trig.sessionID as SessionID ,trig.productID as productID , trig.clientID as ClientId  ,trig.productCategoryID as productCategoryId, kampia.esperLocation.Data.CMSApiConnector.calcRelevance(new Double(0), trig.newTicks , trig ) as relevance   ;
 
 
 //--Invalidate assigned interests
