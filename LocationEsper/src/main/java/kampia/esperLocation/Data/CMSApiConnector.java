@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.sql.Connection;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -21,7 +22,7 @@ public class CMSApiConnector {
     private static String APIToken;
 
     private static ArrayList<Product> Products = new ArrayList<>();
-    private static ArrayList<AdCampaing> campaings = new ArrayList<>();
+    private static ArrayList<AdCampaign> campaings = new ArrayList<>();
     private static HashMap<Integer,Client> clients = new HashMap<>();
 
 
@@ -156,9 +157,7 @@ public class CMSApiConnector {
     }
 
     public static void fetchProducts() throws IOException {
-        ArrayList<Product> prod_list = new ArrayList<>();
-       // HashMap<Integer,Product> prod_list= new HashMap<>();
-        int j=0;
+
         Request request = new Request.Builder()
                 .url("https://cms.proximiot.com/api/v1/products?PageIndex=1&PageSize=1000&useFilterUnion=false")
                 .addHeader("Accept", "text/plain")
@@ -181,9 +180,15 @@ public class CMSApiConnector {
 
             for(int i=0; i<array.length(); i++){
                 if (!array.getJSONObject(i).isNull("ProductLocations")) {
-                    Product tmp_prod = new Product(array.getJSONObject(i));
-                   // prod_list.put(j++,tmp_prod);
-                    prod_list.add(tmp_prod);
+                    for (int j=0;j<array.getJSONObject(i).getJSONArray("ProductLocations").length();j++) {
+                        JSONObject tmpprod= array.getJSONObject(i);
+                        tmpprod.put("Latitude",array.getJSONObject(i).getJSONArray("ProductLocations").getJSONObject(j).getInt("Latitude"));
+                        tmpprod.put("Longitude",array.getJSONObject(i).getJSONArray("ProductLocations").getJSONObject(j).getInt("Longitude"));
+                        tmpprod.put("Floor",array.getJSONObject(i).getJSONArray("ProductLocations").getJSONObject(j).getInt("Floor"));
+
+                        Product tmp_prod = new Product(tmpprod);
+                        Products.add(tmp_prod);
+                    }
                 }
 
             }
@@ -191,9 +196,6 @@ public class CMSApiConnector {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        //for (int i=0;i<prod_list.size();i++) System.out.println(prod_list.get(i));
-        Products= prod_list;
     }
 
     public static void fetchProductsLocal() throws ClassNotFoundException, SQLException {
@@ -225,6 +227,76 @@ public class CMSApiConnector {
             System.out.println(ex.toString());
         }
         Products=tmpList;
+
+    }
+
+    public static void fetchCampaigns(){
+
+        Request request = new Request.Builder()
+                .url("https://cms.proximiot.com/api/v1/ad-campaign-offers?PageIndex=1&PageSize=200&useFilterUnion=false")
+                .addHeader("Accept", "text/plain")
+                .addHeader("Accept-Encoding", "gzip, deflate, br")
+                .addHeader("Connection", "keep-alive")
+                .addHeader("Authorization", "Bearer " + APIToken)
+                .get()
+                .build();
+
+
+        try (Response response = httpClient.newCall(request).execute()) {
+
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            String jsonBodyres= Objects.requireNonNull(response.body()).string();
+            JSONObject object= new JSONObject(jsonBodyres);
+
+            JSONArray array = (JSONArray) object.get("items");
+
+
+            for(int i=0; i<array.length(); i++){
+                    AdCampaign tmp_camp = new AdCampaign(array.getJSONObject(i));
+                    campaings.add(tmp_camp);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public static void fetchCampaignsLocal() throws ClassNotFoundException, SQLException {
+        Class.forName("org.mariadb.jdbc.Driver") ;
+        Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1/CMS?generateSimpleParameterMetadata=true", "root", "") ;
+        Statement stmt = conn.createStatement() ;
+        String query = "SELECT * FROM `ad_offers`;" ;
+        ResultSet rs = stmt.executeQuery(query) ;
+
+
+        try {
+            while (rs.next()) {
+                AdCampaign tmp = new AdCampaign(rs.getInt("id"));
+                tmp.setActive(rs.getBoolean("isActive"));
+                tmp.setAgeGroup(rs.getInt("ageGroupId"));
+                tmp.setProductID(rs.getInt("productId"));
+                tmp.setCode(rs.getString("code"));
+                tmp.setDescription(rs.getString("description"));
+                tmp.setEndDate(rs.getDate("endDate"));
+                tmp.setStartDate(rs.getDate("startDate"));
+                tmp.setProductCategoryID(rs.getInt("productCategoryId"));
+                tmp.setBrandId(rs.getInt("brandId"));
+                tmp.setGenderId(rs.getInt("genderId"));
+                tmp.setClientLoyaltyStatusId(rs.getInt("clientLoyaltyStatusId"));
+                tmp.setMaxDiscount(rs.getFloat("maxDiscount"));
+                tmp.setMinDiscount(rs.getFloat("minDiscount"));
+                campaings.add(tmp);
+
+            }
+        }catch (Exception ex){
+            System.out.println(ex.toString());
+        }
 
     }
 
@@ -260,45 +332,6 @@ public class CMSApiConnector {
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void fetchCampaigns(){
-
-    }
-
-    public static void fetchCampaignsLocal() throws ClassNotFoundException, SQLException {
-        Class.forName("org.mariadb.jdbc.Driver") ;
-        Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1/CMS?generateSimpleParameterMetadata=true", "root", "") ;
-        Statement stmt = conn.createStatement() ;
-        String query = "SELECT * FROM `ad_offers`;" ;
-        ResultSet rs = stmt.executeQuery(query) ;
-
-
-        ArrayList<AdCampaing> tmpList = new ArrayList<>();
-        try {
-            while (rs.next()) {
-                AdCampaing tmp = new AdCampaing(rs.getInt("id"));
-                tmp.setActive(rs.getBoolean("isActive"));
-                tmp.setAgeGroup(rs.getInt("ageGroupId"));
-                tmp.setProductID(rs.getInt("productId"));
-                tmp.setCode(rs.getString("code"));
-                tmp.setDescription(rs.getString("description"));
-                tmp.setEndDate(rs.getDate("endDate"));
-                tmp.setStartDate(rs.getDate("startDate"));
-                tmp.setProductCategoryID(rs.getInt("productCategoryId"));
-                tmp.setBrandId(rs.getInt("brandId"));
-                tmp.setGenderId(rs.getInt("genderId"));
-                tmp.setClientLoyaltyStatusId(rs.getInt("clientLoyaltyStatusId"));
-                tmp.setMaxDiscount(rs.getFloat("maxDiscount"));
-                tmp.setMinDiscount(rs.getFloat("minDiscount"));
-                tmpList.add(tmp);
-
-            }
-        }catch (Exception ex){
-            System.out.println(ex.toString());
-        }
-        campaings= tmpList;
-
     }
 
     private static void fetchClientsLocal() throws ClassNotFoundException, SQLException {
@@ -373,7 +406,7 @@ public class CMSApiConnector {
 
     public static HashMap<Integer,Client> getClients(){return clients;}
 
-    public static ArrayList<AdCampaing> getCampaigns() {
+    public static ArrayList<AdCampaign> getCampaigns() {
         return campaings;
     }
 

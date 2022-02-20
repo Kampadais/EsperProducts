@@ -3,13 +3,10 @@ package kampia.esperLocation.RabbitMQ;
 
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.rabbitmq.client.*;
-import kampia.esperLocation.Data.CMSApiConnector;
 import kampia.esperLocation.EventTypes.NotifObject;
 import kampia.esperLocation.config.CustomDeserializer;
-import kampia.esperLocation.config.CustomSerializer;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeoutException;
 
@@ -44,7 +41,6 @@ public class RabbitMQconnector {
 
 
             runtime.getEventService().sendEventBean(tmpev, delivery.getProperties().getContentType());
-           // System.out.println(" [x] Received '" + tmpev + "'");
         };
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
     }

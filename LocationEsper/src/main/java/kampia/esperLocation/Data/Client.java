@@ -3,9 +3,10 @@ package kampia.esperLocation.Data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Date;
+import java.util.Date;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 
@@ -32,7 +33,11 @@ public class Client {
         if (!clientJson.isNull("FirstName"))this.FName=clientJson.getString("FirstName");
         if (!clientJson.isNull("LastName"))this.LName=clientJson.getString("LastName");
         if (!clientJson.isNull("GenderID"))this.GenderID=clientJson.getInt("GenderId");
-        //TODO birthday fetch
+        if(!clientJson.isNull("DateOfBirth")){
+            LocalDateTime localDateTime = LocalDateTime.parse(clientJson.getString("DateOfBirth"));
+            Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+            setAgeGroup(java.util.Date.from(instant));
+        }
 
     }
 
@@ -148,6 +153,7 @@ public class Client {
                 ", GenderID=" + GenderID +
                 ", LoyaltyID=" + LoyaltyID +
                 ", Wishlist=" + ExplicitWishlist +
+                ", AgeGroup="+ AgeGroup+
                 '}';
     }
 }

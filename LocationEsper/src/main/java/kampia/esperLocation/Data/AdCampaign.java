@@ -1,29 +1,60 @@
 package kampia.esperLocation.Data;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import java.util.Date;
 
-public class AdCampaing {
+public class AdCampaign {
 
     private int CampaignID;
     private String Code;
-    private String Description;
+    private String Description="";
     private Date StartDate;
     private Date EndDate;
-    private int ProductCategoryID;
-    private int AgeGroup;
-    private int ProductID;
-    private int GenderId;
-    private boolean isActive;
-    private int brandId;
-    private int clientLoyaltyStatusId;
-    private double minDiscount;
-    private double maxDiscount;
+    private int ProductCategoryID=0;
+    private int AgeGroup=0;
+    private int ProductID=0;
+    private int GenderId=0;
+    private boolean isActive=false;
+    private int brandId=0;
+    private int clientLoyaltyStatusId=0;
+    private double minDiscount=0;
+    private double maxDiscount=0;
 
-    //Important -> Age groups HardCoded
-
-
-    public AdCampaing(int campaignID) {
+    public AdCampaign(int campaignID) {
         CampaignID = campaignID;
+    }
+
+    public AdCampaign(JSONObject campJSON) throws JSONException, ParseException {
+
+        this.CampaignID=campJSON.getInt("Id");
+        this.Code=campJSON.getString("Code");
+        if(!campJSON.isNull("Description")) this.Description=campJSON.getString("Description");
+        if (!campJSON.isNull("BrandId"))this.brandId=campJSON.getInt("BrandId");
+        if (!campJSON.isNull("clientLoyaltyStatusId"))this.clientLoyaltyStatusId=campJSON.getInt("ClientLoyaltyStatusId");
+        if (!campJSON.isNull("MaxExtraDiscount"))this.maxDiscount=campJSON.getInt("MaxExtraDiscount");
+        if (!campJSON.isNull("DefaultDiscount"))this.minDiscount=campJSON.getInt("DefaultDiscount");
+        if (!campJSON.isNull("AgeGroupId"))this.AgeGroup=campJSON.getInt("AgeGroupId");
+        if (!campJSON.isNull("GenderId"))this.GenderId=campJSON.getInt("GenderId");
+        if (!campJSON.isNull("IsActive")) this.isActive=campJSON.getBoolean("IsActive");
+        if(!campJSON.isNull("ProductCategoryId")) this.ProductCategoryID = campJSON.getInt("ProductCategoryId");
+        if(!campJSON.isNull("ProductID")) this.ProductID = campJSON.getInt("ProductID");
+        if(!campJSON.isNull("StartDate")) {
+            LocalDateTime localDateTime = LocalDateTime.parse(campJSON.getString("StartDate"));
+            Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+            this.StartDate = Date.from(instant);
+          }
+        if(!campJSON.isNull("EndDate")) {
+            LocalDateTime localDateTime = LocalDateTime.parse(campJSON.getString("EndDate"));
+            Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+            this.EndDate = Date.from(instant);
+        }
     }
 
     public int getProductID() {

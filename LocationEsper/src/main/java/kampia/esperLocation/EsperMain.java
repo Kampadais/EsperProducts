@@ -42,11 +42,10 @@ public class EsperMain {
     public static Configuration configuration;
     public static EPRuntime runtime;
     public static EPDeployment deployment;
-    //private static final Logger log = LoggerFactory.getLogger(EsperMain.class);
 
     public void run() throws Exception {
-        //InitializeDBdata();
-        InitializeDBdataLocal();
+        InitializeDBdata();
+        //InitializeDBdataLocal();
 
         configuration = EsperConfig.getConfiguration();
 
@@ -73,31 +72,6 @@ public class EsperMain {
     private void InitializeDBdata() throws Exception {
         CMSApiConnector.InitCMSApiConnector(false);
     }
-
-
-//
-//    private void createTables() {
-//        EPCompiler compiler = EPCompilerProvider.getCompiler();
-//        CompilerArguments args = new CompilerArguments(configuration);
-//
-//
-//        String query = "create table AssocProductTable(" +
-//                "      productID  int  primary key," +
-//                "      SessionID  int  primary key," +
-//                "      relevance  double" +
-//                ")";
-//
-////		String query ="create window AssocProductTable#keepall as Associate";
-//
-//        try {
-//            compiler.compile(query, args);
-//        } catch (EPCompileException ex) {
-//            // handle exception here
-//            throw new RuntimeException(ex);
-//        }
-//
-//
-//    }
 
     private void listenToSampleStatement(EPRuntime runtime, EPDeployment deployment) {
         //	log.info("Listening to statement");

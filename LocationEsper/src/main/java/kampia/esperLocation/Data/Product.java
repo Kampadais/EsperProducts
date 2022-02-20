@@ -25,15 +25,14 @@ public class Product {
 
     public Product(JSONObject JsonProd) throws JSONException {
 
-        this.SKU= JsonProd.getString("Sku");
-        this.ProductCategoryID= JsonProd.getInt("ProductCategoryId");
-        this.ProductID=JsonProd.getInt("Id");
-        this.RetailPrice=JsonProd.getDouble("RetailPrice");
-        JSONObject LocTmp = JsonProd.getJSONArray("ProductLocations").getJSONObject(0);
-        this.Lat = LocTmp.getDouble("Latitude");
-        this.Lon= LocTmp.getDouble("Longitude");
-        this.Floor=LocTmp.getInt("Floor");
-
+        if(!JsonProd.isNull("Sku"))this.SKU= JsonProd.getString("Sku");
+        if(!JsonProd.isNull("ProductCategoryId"))this.ProductCategoryID= JsonProd.getInt("ProductCategoryId");
+        if(!JsonProd.isNull("Id"))this.ProductID=JsonProd.getInt("Id");
+        if(!JsonProd.isNull("RetailPrice"))this.RetailPrice=JsonProd.getDouble("RetailPrice");
+        if(!JsonProd.isNull("BrandId"))this.BrandID=JsonProd.getInt("BrandId");
+        this.Lat = JsonProd.getDouble("Latitude");
+        this.Lon= JsonProd.getDouble("Longitude");
+        this.Floor=JsonProd.getInt("Floor");
 
     }
 

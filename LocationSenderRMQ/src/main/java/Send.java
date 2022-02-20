@@ -45,10 +45,8 @@ public class Send {
             java.sql.Connection conn = null;
             Statement stmt = null;
             try {
-                //STEP 2: Register JDBC driver
                 Class.forName("org.mariadb.jdbc.Driver");
 
-                //STEP 3: Open a connection
                 System.out.println("Connecting to a selected database...");
                 conn = DriverManager.getConnection(
                         DB_URL, USER, PASS);
@@ -59,7 +57,6 @@ public class Send {
                 Timestamp currentTimestamp= new Timestamp(Calendar.getInstance().getTime().getTime());
                 String sql="";
 
-           //     while (true){
 
                     sql = "SELECT * FROM ProximiotDB.ClientLocation ; ";//WHERE Timestamp > '"+currentTimestamp+"';";
                     System.out.println(sql);
@@ -68,24 +65,16 @@ public class Send {
 
                     ArrayList<Location> locations = new ArrayList<>();
                     while(result.next()){
-                      //  System.out.println("fdfsd");
                         Location tmpLoc = new Location(result.getInt("ClientLocationID"),result.getInt("SessionID"),result.getTimestamp("Timestamp"),result.getInt("Lat"),result.getInt("Lon"),result.getInt("Floor"),clientIds.get(result.getInt("SessionID")));
                         locations.add(tmpLoc);
-                        //System.out.println(tmpLoc);
-                     //   byte[]  message = SerializationUtils.serialize((Serializable) tmpLoc);
                         AMQP.BasicProperties messageProperties = new AMQP.BasicProperties.Builder()
                                 .contentType("Location")
                                 .build();
                         channel.basicPublish("", QUEUE_NAME, messageProperties, tmpLoc.serialize(tmpLoc));
                         System.out.println(" [x] Sent '" + tmpLoc + "'");
-             //       }
-
-
-
-
+                        sleep(200);
 
                     currentTimestamp= new Timestamp(Calendar.getInstance().getTime().getTime());
-                   // sleep(1000);
 
                 }
 
