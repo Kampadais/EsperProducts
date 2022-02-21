@@ -3,11 +3,11 @@ package kampia.esperLocation.Data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
 
 
 public class Client {
@@ -48,7 +48,6 @@ public class Client {
     public Client() {}
 
     public void setAgeGroup(Date Birth) {
-        //TODO Hardcoded ageGroups
         LocalDate start = Instant.ofEpochMilli(Birth.getTime())
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();

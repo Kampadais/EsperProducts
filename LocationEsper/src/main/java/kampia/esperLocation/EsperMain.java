@@ -3,20 +3,15 @@ package kampia.esperLocation;
 import com.espertech.esper.common.client.EPCompiled;
 import com.espertech.esper.common.client.EventBean;
 import com.espertech.esper.common.client.configuration.Configuration;
-import com.espertech.esper.compiler.client.CompilerArguments;
-import com.espertech.esper.compiler.client.EPCompileException;
-import com.espertech.esper.compiler.client.EPCompiler;
-import com.espertech.esper.compiler.client.EPCompilerProvider;
 import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.espertech.esper.runtime.client.EPRuntimeProvider;
 import com.espertech.esper.runtime.client.EPStatement;
-import kampia.esperLocation.Data.Client;
+import kampia.esperLocation.Data.CMSApiConnector;
 import kampia.esperLocation.EventTypes.ClientInterested;
 import kampia.esperLocation.EventTypes.ClientInterestedCat;
 import kampia.esperLocation.RabbitMQ.RabbitMQconnector;
 import kampia.esperLocation.Subscribers.*;
-import kampia.esperLocation.Data.CMSApiConnector;
 import kampia.esperLocation.config.EsperConfig;
 import kampia.esperLocation.utils.EPLUtil;
 
@@ -29,14 +24,7 @@ public class EsperMain {
     public static  ArrayList<ClientInterested> ClientsInterests= new  ArrayList();
     public static ArrayList<ClientInterestedCat> ClientsInterestsCat= new ArrayList<>();
 
-    public static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
-    public static final String DB_URL = "jdbc:mariadb://127.0.0.1/ProximiotDB";
-
     public static CMSApiConnector connector = null;
-
-
-    public static final String USER = "root";
-    public static final String PASS = "";
 
     public static EPCompiled compiled;
     public static Configuration configuration;
@@ -44,8 +32,8 @@ public class EsperMain {
     public static EPDeployment deployment;
 
     public void run() throws Exception {
-        InitializeDBdata();
-        //InitializeDBdataLocal();
+        //InitializeDBdata();
+        InitializeDBdataLocal();
 
         configuration = EsperConfig.getConfiguration();
 
@@ -74,8 +62,7 @@ public class EsperMain {
     }
 
     private void listenToSampleStatement(EPRuntime runtime, EPDeployment deployment) {
-        //	log.info("Listening to statement");
-        EPStatement statement = runtime.getDeploymentService().getStatement(deployment.getDeploymentId(), "closeNtimes");
+       EPStatement statement = runtime.getDeploymentService().getStatement(deployment.getDeploymentId(), "closeNtimes");
 
         statement.addListener((newData, oldData, sta, run) -> {
 

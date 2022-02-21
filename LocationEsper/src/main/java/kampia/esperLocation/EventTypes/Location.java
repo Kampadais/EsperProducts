@@ -45,11 +45,6 @@ public class Location  extends ClientCloseEvent{
         
     }
 
-    public String sending(){
-        return "Lat: " +Lat +" Lon: "+Lon+"";
-    }
-
-
     public int getClientID() {
         return clientID;
     }

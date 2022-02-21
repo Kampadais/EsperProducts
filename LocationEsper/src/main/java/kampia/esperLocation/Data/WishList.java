@@ -7,9 +7,9 @@ import java.util.HashMap;
 public class WishList {
 
     private int ClientID;
-    private ArrayList<Integer> Products=new ArrayList<>();
+    private final ArrayList<Integer> Products=new ArrayList<>();
     //0->Start Date , 1->End date
-    private HashMap<Integer ,Date[] > expireDate=new HashMap<>();
+    private final HashMap<Integer ,Date[] > expireDate=new HashMap<>();
 
 
 

@@ -22,34 +22,8 @@ public class associateCategoryEventSubscriber implements StatementSubscriber{
         sb.append("Associate Location with id:").append(assocTmp.getSessionID()).append( " with productCategory with id:").append(assocTmp.getProductCategoryID());
         sb.append("       ------------****------------");
 
-       // SendToDB(assocTmp,sb.toString());
         System.out.println(sb);
         return sb.toString();
-    }
-
-    private void  SendToDB(Associate associate, String sb){
-        Connection conn;
-        Statement stmt;
-
-        try {
-            Class.forName("org.mariadb.jdbc.Driver");
-
-
-
-            conn = DriverManager.getConnection(
-                    DB_URL, USER, PASS);
-
-            stmt = conn.createStatement();
-
-
-            String sql = "INSERT INTO `Event`(`ClientLocationID`, `ProductID`, `Content`) VALUES ("+associate.getSessionID()+" , "+associate.getProductCategoryID()+" ,'"+sb+"')";
-
-            stmt.executeQuery(sql);
-
-        }catch (Exception ex){
-            System.out.println(ex.fillInStackTrace().toString());
-        }
-
     }
 
 }

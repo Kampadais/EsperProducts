@@ -1,10 +1,11 @@
 package kampia.esperLocation.Subscribers;
 
 import com.espertech.esper.common.client.EventBean;
-import kampia.esperLocation.RabbitMQ.RabbitMQconnector;
+import kampia.esperLocation.Data.Product;
 import kampia.esperLocation.EventTypes.Associate;
 import kampia.esperLocation.EventTypes.ClientCloseEvent;
-import kampia.esperLocation.Data.Product;
+import kampia.esperLocation.RabbitMQ.RabbitMQconnector;
+import kampia.esperLocation.config.Configurations;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,35 +28,10 @@ public class tickCounterEventSubscriber  implements   StatementSubscriber{
         sb.append("Client with sessionID:"+ tmploc.getSessionID()+" and id "+tmploc.getClientID()+" stays close to  product: "+ prod.getProductID());//tmploc.getTicks());
         sb.append("        ------------****------------");
 
-      //  SendToDB(tmploc,prod,sb.toString());
-
         System.out.println(sb);
         RabbitMQconnector.runtime.getEventService().sendEventBean(tmp, "Associate");
 
         return sb.toString();
-    }
-
-    private void  SendToDB( ClientCloseEvent loc, Product prod, String sb){
-        Connection conn;
-        Statement stmt;
-
-        try {
-            Class.forName("org.mariadb.jdbc.Driver");
-
-
-            conn = DriverManager.getConnection(
-                    DB_URL, USER, PASS);
-            stmt = conn.createStatement();
-
-
-            String sql = "INSERT INTO `Event`(`ClientLocationID`, `ProductID`, `Content`) VALUES ("+loc.getLocationID()+" , "+prod.getProductID()+" ,'"+sb+"')";
-
-            stmt.executeQuery(sql);
-
-        }catch (Exception ex){
-            System.out.println(ex.fillInStackTrace().toString());
-        }
-
     }
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <esper-configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                      xmlns="http://esper.espertech.com/schema/esper/"
-                     xsi:schemaLocation="http://esper.espertech.com/schema/esper/esper-configuration-8-0.xsd">
+>
 
 </esper-configuration>

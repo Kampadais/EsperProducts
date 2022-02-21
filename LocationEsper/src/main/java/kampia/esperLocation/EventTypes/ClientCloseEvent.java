@@ -77,15 +77,6 @@ public class ClientCloseEvent    {
         return temp;
     }
 
-
-
-
-
-    public String sending(){
-        return "Lat: " +Lat +" Lon: "+Lon+"";
-    }
-
-
     public void setClientID(int clientID) {
         ClientID = clientID;
     }

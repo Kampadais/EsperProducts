@@ -2,9 +2,9 @@ package kampia.esperLocation.Subscribers;
 
 import com.espertech.esper.common.client.EventBean;
 import kampia.esperLocation.EsperMain;
+import kampia.esperLocation.EventTypes.ClientInterested;
 import kampia.esperLocation.EventTypes.NotifObject;
 import kampia.esperLocation.RabbitMQ.RabbitMQconnector;
-import kampia.esperLocation.EventTypes.ClientInterested;
 
 public class RelProdSubscriber implements StatementSubscriber{
 

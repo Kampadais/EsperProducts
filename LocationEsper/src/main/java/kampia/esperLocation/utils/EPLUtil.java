@@ -11,6 +11,7 @@ import com.espertech.esper.runtime.client.DeploymentOptions;
 import com.espertech.esper.runtime.client.EPDeployException;
 import com.espertech.esper.runtime.client.EPDeployment;
 import com.espertech.esper.runtime.client.EPRuntime;
+import kampia.esperLocation.config.Configurations;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,11 +19,8 @@ import java.net.URL;
 import java.util.UUID;
 
 public class EPLUtil {
-   // private static final Logger log = LoggerFactory.getLogger(EPLUtil.class);
-
 
     public static EPCompiled compileEPL(Configuration configuration, String statement, String name) {
-     //   log.info("Compiling EPL from statement param ({}:{})", name, statement);
         String finalStatement;
         if (name != null) {
             finalStatement = "@name(" + name + ") " + statement;
@@ -41,7 +39,7 @@ public class EPLUtil {
     }
 
     public static EPCompiled loadQueries(Configuration configuration) {
-        URL url = EPLUtil.class.getResource("/queries/queries.epl");
+        URL url = EPLUtil.class.getResource(Configurations.EPLQueries_path);
         Module queries = null;
         try {
             queries = EPCompilerProvider.getCompiler().readModule(url);

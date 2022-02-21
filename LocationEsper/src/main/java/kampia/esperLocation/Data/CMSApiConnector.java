@@ -1,6 +1,7 @@
 package kampia.esperLocation.Data;
 
 import kampia.esperLocation.EventTypes.Associate;
+import kampia.esperLocation.config.Configurations;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,8 +9,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.sql.*;
 import java.sql.Connection;
+import java.sql.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +18,7 @@ import java.util.Objects;
 
 public class CMSApiConnector {
 
-    private static String APIusernname = "cms_test";
-    private static String APIpass = "LdZW75%Txh@v+@q$";
+
     private static String APIToken;
 
     private static ArrayList<Product> Products = new ArrayList<>();
@@ -48,8 +48,8 @@ public class CMSApiConnector {
     }
 
     private static void fetchWishlistsLocal() throws SQLException, ClassNotFoundException {
-        Class.forName("org.mariadb.jdbc.Driver") ;
-        Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1/CMS?generateSimpleParameterMetadata=true", "root", "") ;
+        Class.forName(Configurations.JDBC_DRIVER) ;
+        Connection conn = DriverManager.getConnection(Configurations.DB_URL_CMS+"?generateSimpleParameterMetadata=true", Configurations.USER, Configurations.PASS) ;
         Statement stmt = conn.createStatement() ;
         String query = "SELECT * FROM `explicit_wishlist_items`" ;
         ResultSet rs = stmt.executeQuery(query) ;
@@ -90,8 +90,8 @@ public class CMSApiConnector {
 
 
     private static void fetchImpWishlistLocal() throws ClassNotFoundException, SQLException {
-        Class.forName("org.mariadb.jdbc.Driver") ;
-        Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1/ProximiotDB?generateSimpleParameterMetadata=true", "root", "") ;
+        Class.forName(Configurations.JDBC_DRIVER) ;
+        Connection conn = DriverManager.getConnection(Configurations.DB_URL_Prox+"?generateSimpleParameterMetadata=true", Configurations.USER, Configurations.PASS) ;
         Statement stmt = conn.createStatement() ;
         String query = "SELECT * FROM `ImplicitWishlist`" ;
         ResultSet rs = stmt.executeQuery(query) ;
@@ -119,11 +119,11 @@ public class CMSApiConnector {
         }
     }
 
-    private static void fetchToken(){
+    public static void fetchToken(){
 
         String strBody="{\n" +
-                "    \"username\": \"cms_test\",\n" +
-                "    \"password\": \"LdZW75%Txh@v+@q$\"\n" +
+                "    \"username\": \""+Configurations.APIUsername+"\",\n" +
+                "    \"password\": \""+Configurations.APIPassword+"\"\n" +
                 "}";
         RequestBody foBo=  FormBody.create(strBody.getBytes(StandardCharsets.UTF_8));
 
@@ -199,8 +199,8 @@ public class CMSApiConnector {
     }
 
     public static void fetchProductsLocal() throws ClassNotFoundException, SQLException {
-        Class.forName("org.mariadb.jdbc.Driver") ;
-        Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1/CMS?generateSimpleParameterMetadata=true", "root", "") ;
+        Class.forName(Configurations.JDBC_DRIVER) ;
+        Connection conn = DriverManager.getConnection(Configurations.DB_URL_CMS+"?generateSimpleParameterMetadata=true", Configurations.USER, Configurations.PASS) ;
         Statement stmt = conn.createStatement() ;
         String query = "SELECT * FROM `products` JOIN `product_categories` ON products.productCategoryId=product_categories.id JOIN `product_locations` ON product_locations.productId = products.id ORDER BY `products`.`id` ASC" ;
         ResultSet rs = stmt.executeQuery(query) ;
@@ -268,8 +268,8 @@ public class CMSApiConnector {
     }
 
     public static void fetchCampaignsLocal() throws ClassNotFoundException, SQLException {
-        Class.forName("org.mariadb.jdbc.Driver") ;
-        Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1/CMS?generateSimpleParameterMetadata=true", "root", "") ;
+        Class.forName(Configurations.JDBC_DRIVER) ;
+        Connection conn = DriverManager.getConnection(Configurations.DB_URL_CMS+"?generateSimpleParameterMetadata=true", Configurations.USER, Configurations.PASS) ;
         Statement stmt = conn.createStatement() ;
         String query = "SELECT * FROM `ad_offers`;" ;
         ResultSet rs = stmt.executeQuery(query) ;
@@ -301,7 +301,7 @@ public class CMSApiConnector {
     }
 
     public static void fetchClients(){
-        //TODO fetch Birthday
+
         Request request = new Request.Builder()
                 .url("https://cms.proximiot.com/api/v1/clients?PageIndex=1&PageSize=100&useFilterUnion=false")
                 .addHeader("Accept", "text/plain")
@@ -335,8 +335,8 @@ public class CMSApiConnector {
     }
 
     private static void fetchClientsLocal() throws ClassNotFoundException, SQLException {
-        Class.forName("org.mariadb.jdbc.Driver") ;
-        Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1/CMS?generateSimpleParameterMetadata=true", "root", "") ;
+        Class.forName(Configurations.JDBC_DRIVER) ;
+        Connection conn = DriverManager.getConnection(Configurations.DB_URL_CMS+"?generateSimpleParameterMetadata=true", Configurations.USER, Configurations.PASS) ;
         Statement stmt = conn.createStatement() ;
         String query = "SELECT * FROM `clients`" ;
         ResultSet rs = stmt.executeQuery(query) ;
@@ -372,13 +372,11 @@ public class CMSApiConnector {
             if (campaings.get(i).getProductCategoryID() == assoc.getProductCategoryID()) {
                 if ((campaings.get(i).getAgeGroup()==clients.get(assoc.getClientID()).getAgeGroup() || campaings.get(i).getAgeGroup()==0 ) && (campaings.get(i).getGenderId()==clients.get(assoc.getClientID()).getGenderID() || campaings.get(i).getGenderId()==0)){
                     multiplier+=0.1;
-                    // System.out.println("Campaing id->" + campaings.get(i).getCampaignID()+ " matches category");
                 }
             }
             if (campaings.get(i).getProductID()==assoc.getProductID()){
                 if ((campaings.get(i).getAgeGroup()==clients.get(assoc.getClientID()).getAgeGroup() || campaings.get(i).getAgeGroup()==0) && (campaings.get(i).getGenderId()==clients.get(assoc.getClientID()).getGenderID() || campaings.get(i).getGenderId()==0  )){
                     multiplier+=0.4;
-                    //System.out.println("Campaing id->" + campaings.get(i).getCampaignID()+ " matches productID");
                 }
             }
         }
@@ -391,7 +389,6 @@ public class CMSApiConnector {
 
         if (tmpClient.getExplicitWishlist().checkProduct(assoc.getProductID())){
             whishAcc += 5 ;
-       //     System.out.println("Product-> " + assoc.getProductID() + " in whishlist.");
         }
         if (tmpClient.getImplicitWishList().checkProduct(assoc.getProductID())){
             whishAcc+= 2 ;
@@ -399,19 +396,14 @@ public class CMSApiConnector {
 
         double retRel= oldRel+ multiplier*(whishAcc+newRel);
 
-      //  System.out.println("Old->" + oldRel + " added->" +multiplier*(whishAcc+newRel) );
         return  retRel;
 
     }
 
     public static HashMap<Integer,Client> getClients(){return clients;}
 
-    public static ArrayList<AdCampaign> getCampaigns() {
-        return campaings;
-    }
+    public static ArrayList<AdCampaign> getCampaigns() {return campaings;}
 
-    public static ArrayList<Product> getProducts(){
-        return Products;
-    }
+    public static ArrayList<Product> getProducts(){return Products;}
 
 }

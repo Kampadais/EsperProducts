@@ -72,7 +72,7 @@ public class Send {
                                 .build();
                         channel.basicPublish("", QUEUE_NAME, messageProperties, tmpLoc.serialize(tmpLoc));
                         System.out.println(" [x] Sent '" + tmpLoc + "'");
-                        sleep(200);
+                      //  sleep(200);
 
                     currentTimestamp= new Timestamp(Calendar.getInstance().getTime().getTime());
 

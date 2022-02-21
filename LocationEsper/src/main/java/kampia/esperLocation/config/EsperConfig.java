@@ -35,15 +35,14 @@ public class EsperConfig {
         Properties props = new Properties();
 
 
-        props.put("username", "root");
-        props.put("password", "");
-        props.put("driverClassName", "org.mariadb.jdbc.Driver");
-        props.put("url", "jdbc:mariadb://127.0.0.1/CMS?generateSimpleParameterMetadata=true");
+        props.put("username", Configurations.USER);
+        props.put("password", Configurations.PASS);
+        props.put("driverClassName", Configurations.JDBC_DRIVER);
+        props.put("url", Configurations.DB_URL_CMS+"?generateSimpleParameterMetadata=true");
         props.put("initialSize", 2);
         props.put("validationQuery", "select 1 from dual");
 
         ConfigurationCommonDBRef configDB = new ConfigurationCommonDBRef();
-// BasicDataSourceFactory is an Apache DBCP import
         configDB.setDataSourceFactory(props, BasicDataSourceFactory.class.getName());
         configDB.setConnectionLifecycleEnum(ConfigurationCommonDBRef.ConnectionLifecycleEnum.POOLED);
 

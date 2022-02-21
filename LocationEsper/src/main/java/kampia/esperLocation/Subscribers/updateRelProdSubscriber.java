@@ -12,7 +12,6 @@ public class updateRelProdSubscriber implements StatementSubscriber{
         sb.append("Update Relevance on productId:"+event.get("productID")+" and SessionID:"+event.get("SessionID")+" sum : "+event.get("relevance"));
         sb.append("       ------------****------------");
 
-
         System.out.println(sb);
         return sb.toString();
     }

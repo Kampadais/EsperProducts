@@ -1,10 +1,7 @@
 package kampia.esperLocation.Subscribers;
 
 import com.espertech.esper.common.client.EventBean;
-import kampia.esperLocation.EsperMain;
-import kampia.esperLocation.EventTypes.ClientInterested;
 import kampia.esperLocation.EventTypes.Location;
-import kampia.esperLocation.RabbitMQ.RabbitMQconnector;
 
 public class TestSubscriber implements StatementSubscriber{
 

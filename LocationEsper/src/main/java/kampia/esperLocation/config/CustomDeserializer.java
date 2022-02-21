@@ -5,12 +5,10 @@ import kampia.esperLocation.EventTypes.ClientCloseEvent;
 import kampia.esperLocation.EventTypes.Location;
 
 import java.io.Serializable;
-import java.util.Map;
 
 public class CustomDeserializer<T extends Serializable>  {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-    public static final String VALUE_CLASS_NAME_CONFIG = "value.class.name";
 
 
 

@@ -7,7 +7,6 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-
 import java.util.Date;
 
 public class AdCampaign {

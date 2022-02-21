@@ -8,6 +8,6 @@ import com.espertech.esper.common.client.EventBean;
  */
 public interface StatementSubscriber {
 
-    public String output(EventBean event) throws Exception;
+    String output(EventBean event) throws Exception;
 
 }

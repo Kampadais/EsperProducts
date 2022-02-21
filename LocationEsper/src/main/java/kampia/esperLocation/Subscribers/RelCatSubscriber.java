@@ -18,7 +18,6 @@ public class RelCatSubscriber implements  StatementSubscriber{
         sb.append("Client with sessionID "+tmp[1]+" is interested for product Category  with id :"+tmp[0] );
         sb.append("       ------------****------------");
 
-
         System.out.println(sb);
         RabbitMQconnector.runtime.getEventService().sendEventBean(intre, "ClientInterestedCat");
 
