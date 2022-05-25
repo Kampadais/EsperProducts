@@ -19,6 +19,9 @@ public class Configurations {
     public static final String APIPassword="LdZW75%Txh@v+@q$";
 
     public static String EPLQueries_path="/queries/queries.epl";
+    
+    //Number of events for a client in order to be sent to Esper
+    public static int No_Batch_Events = 10;
 
 
 

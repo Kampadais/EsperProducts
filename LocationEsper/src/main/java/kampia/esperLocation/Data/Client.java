@@ -151,7 +151,8 @@ public class Client {
                 ", ClientCategory=" + ClientCategory +
                 ", GenderID=" + GenderID +
                 ", LoyaltyID=" + LoyaltyID +
-                ", Wishlist=" + ExplicitWishlist +
+                ", EWishlist=" + ExplicitWishlist +
+                ", IWishlist= "+ ImplicitWishList+
                 ", AgeGroup="+ AgeGroup+
                 '}';
     }

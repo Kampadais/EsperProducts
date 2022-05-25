@@ -28,8 +28,10 @@ create table AssocProductTable(
                      measures A[0] as loc1 , count(A.locationID) as idcount , B as loc2
                      pattern (A{3,} B)
                      define
-                      	A as A.lat between  (prev(A.lat, 1) -5) and (prev(A.lat, 1) +5)  and A.lon between (prev(A.lon, 1) -5)  and  (prev(A.lon, 1) +5) and prev(A.sessionID) = A.sessionID ,
-                      	B as B.lat < (prev(B.lat, 1) -5) or  B.lat > (prev(B.lat, 1) +5) or  B.lon < (prev(B.lon, 1) -5)  or  B.lon > (prev(B.lon, 1) +5) or B.sessionID != prev(B.sessionID));
+                      	A as A.lat between  (prev(A.lat, 1) -5) and (prev(A.lat, 1) +5)  and A.lon between (prev(A.lon, 1) -5)
+                      	    and  (prev(A.lon, 1) +5) and prev(A.sessionID) = A.sessionID ,
+                      	B as B.lat < (prev(B.lat, 1) -5) or  B.lat > (prev(B.lat, 1) +5) or  B.lon < (prev(B.lon, 1) -5)
+                      	    or  B.lon > (prev(B.lon, 1) +5) or B.sessionID != prev(B.sessionID));
 
 
 @Name('associate')
@@ -47,11 +49,13 @@ select    * , "associate" as type  from ClientCloseEvent as loc,
 @Description('When an associate comes to an instance that is already in the table this query updates the relevance')
 on Associate as trig merge AssocProductTable as tbl where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID
         when  matched then update
-        set relevance = kampia.esperLocation.Data.CMSApiConnector.calcRelevance(tbl.relevance, trig.newTicks , trig )where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID ;
+            set relevance = kampia.esperLocation.Data.CMSApiConnector.calcRelevance(tbl.relevance, trig.newTicks , trig)
+                where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID ;
 
 @Name('insertNewRel')
 @Description('When a client stays close to a new product this query creates a new instance in AssocProductTable')
-on Associate as trig merge AssocProductTable as tbl where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID  when not matched then insert into AssocProductTable select  trig.sessionID as SessionID ,trig.productID as productID , trig.clientID as ClientId  ,trig.productCategoryID as productCategoryId, kampia.esperLocation.Data.CMSApiConnector.calcRelevance(new Double(0), trig.newTicks , trig ) as relevance   ;
+on Associate as trig merge AssocProductTable as tbl
+    where trig.sessionID=tbl.SessionID and trig.productID=tbl.productID  when not matched then insert into AssocProductTable select  trig.sessionID as SessionID ,trig.productID as productID , trig.clientID as ClientId  ,trig.productCategoryID as productCategoryId, kampia.esperLocation.Data.CMSApiConnector.calcRelevance(new Double(0), trig.newTicks , trig ) as relevance   ;
 
 
 //--Invalidate assigned interests
@@ -64,7 +68,9 @@ on ClientInterested as trig merge AssocProductTable as tbl where trig.sessionID=
 
 @Name('insertNewProdRel')
 @Description('When a client stays close to a new product this query creates a new instance in AssocProductTable')
-on ClientInterested as inter merge AssocCategoryTable as tbl where inter.sessionID=tbl.SessionID and inter.productCategoryID=tbl.productCategoryID  when not matched then insert into AssocCategoryTable select  inter.sessionID as SessionID ,inter.productCategoryID as productCategoryID  , 0 as relevance ;
+on ClientInterested as inter merge AssocCategoryTable as tbl where inter.sessionID=tbl.SessionID and inter.productCategoryID=tbl.productCategoryID
+    when not matched then insert into AssocCategoryTable
+            select  inter.sessionID as SessionID ,inter.productCategoryID as productCategoryID  , 0 as relevance ;
 
 @Name('updateProdRel')
 @Description('When an associate comes to an instance that is already in the table this query updates the relevance')

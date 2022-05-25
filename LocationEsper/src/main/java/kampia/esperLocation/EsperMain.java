@@ -32,8 +32,7 @@ public class EsperMain {
     public static EPDeployment deployment;
 
     public void run() throws Exception {
-        //InitializeDBdata();
-        InitializeDBdataLocal();
+        CMSApiConnector.InitCMSApiConnector();
 
         configuration = EsperConfig.getConfiguration();
 
@@ -53,13 +52,6 @@ public class EsperMain {
 
     }
 
-    private void InitializeDBdataLocal() throws IOException, SQLException, ClassNotFoundException {
-        CMSApiConnector.InitCMSApiConnector(true);
-    }
-
-    private void InitializeDBdata() throws Exception {
-        CMSApiConnector.InitCMSApiConnector(false);
-    }
 
     private void listenToSampleStatement(EPRuntime runtime, EPDeployment deployment) {
        EPStatement statement = runtime.getDeploymentService().getStatement(deployment.getDeploymentId(), "closeNtimes");

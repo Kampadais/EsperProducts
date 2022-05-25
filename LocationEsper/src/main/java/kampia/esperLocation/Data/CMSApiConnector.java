@@ -28,9 +28,9 @@ public class CMSApiConnector {
 
     private static OkHttpClient httpClient = new OkHttpClient();
 
-    public static void  InitCMSApiConnector(boolean local) throws IOException, SQLException, ClassNotFoundException {
+    public static void  InitCMSApiConnector() throws IOException, SQLException, ClassNotFoundException {
 
-        if (!local){
+        if (!Configurations.Local){
             fetchToken();
             fetchProducts();
             fetchClients();

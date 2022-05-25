@@ -3,18 +3,22 @@ package kampia.esperLocation.RabbitMQ;
 
 import com.espertech.esper.runtime.client.EPRuntime;
 import com.rabbitmq.client.*;
+import kampia.esperLocation.EventTypes.Location;
 import kampia.esperLocation.EventTypes.NotifObject;
 import kampia.esperLocation.config.Configurations;
 import kampia.esperLocation.config.CustomDeserializer;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 public class RabbitMQconnector {
 
 
     public static EPRuntime runtime;
+    public static HashMap<Integer , ArrayList<Location>> ClientsLoc = new HashMap<>();
 
 
     public RabbitMQconnector(EPRuntime runtime){
@@ -35,14 +39,33 @@ public class RabbitMQconnector {
 
             String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
 
-            CustomDeserializer deserializer= new CustomDeserializer();
-            Object tmpev = deserializer.deserialize(delivery.getBody());
+            Location tmpev = (Location) new CustomDeserializer<>().deserialize(delivery.getBody());
+            if (ClientsLoc.get(tmpev.getClientID())==null){
+                ArrayList<Location> tmp = new ArrayList<>();
+                tmp.add(tmpev);
+                ClientsLoc.put(tmpev.getClientID(), tmp);
+            }else ClientsLoc.get(tmpev.getClientID()).add(tmpev);
 
 
-
-            runtime.getEventService().sendEventBean(tmpev, delivery.getProperties().getContentType());
-        };
+            checkSize(delivery);
+           //runtime.getEventService().sendEventBean(tmpev, delivery.getProperties().getContentType());
+       };
         channel.basicConsume(Configurations.Reading_Queue_RabbitMQ, true, deliverCallback, consumerTag -> { });
+    }
+
+    private void checkSize(Delivery delivery) {
+        ClientsLoc.forEach(
+                (key, value)
+                        -> {
+                    if (value.size()>=Configurations.No_Batch_Events) {
+                       for (int i=0;i<value.size();i++){
+                           runtime.getEventService().sendEventBean(value.get(i), delivery.getProperties().getContentType());
+                       }
+                       value.clear();
+                    }
+                }
+                );
+
     }
 
     public EPRuntime getRuntime() {
@@ -59,7 +82,7 @@ public class RabbitMQconnector {
             channel.queueDeclare(Configurations.Output_Queue_RabbitMQ, false, false, false, null);
 
             AMQP.BasicProperties messageProperties = new AMQP.BasicProperties.Builder()
-                    .contentType("Location")
+                    .contentType("NotObject")
                     .build();
             channel.basicPublish("", Configurations.Output_Queue_RabbitMQ, messageProperties, RMQtoSend.serialize(RMQtoSend));
 

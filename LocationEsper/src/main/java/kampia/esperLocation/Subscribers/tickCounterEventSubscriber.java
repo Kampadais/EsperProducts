@@ -1,6 +1,7 @@
 package kampia.esperLocation.Subscribers;
 
 import com.espertech.esper.common.client.EventBean;
+import kampia.esperLocation.Data.CMSApiConnector;
 import kampia.esperLocation.Data.Product;
 import kampia.esperLocation.EventTypes.Associate;
 import kampia.esperLocation.EventTypes.ClientCloseEvent;
